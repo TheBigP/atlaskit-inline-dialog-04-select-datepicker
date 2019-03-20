@@ -18,21 +18,33 @@ const options = [
   { label: "Hobart", value: "hobart" },
   { label: "Melbourne", value: "melbourne" },
   { label: "Perth", value: "perth" },
+  { label: "Sydney", value: "sydney" },
+  { label: "Adelaide", value: "adelaide" },
+  { label: "Brisbane", value: "brisbane" },
+  { label: "Canberra", value: "canberra" },
+  { label: "Darwin", value: "darwin" },
+  { label: "Hobart", value: "hobart" },
+  { label: "Melbourne", value: "melbourne" },
+  { label: "Perth", value: "perth" },
+  { label: "Adelaide", value: "adelaide" },
+  { label: "Brisbane", value: "brisbane" },
+  { label: "Canberra", value: "canberra" },
+  { label: "Darwin", value: "darwin" },
+  { label: "Hobart", value: "hobart" },
+  { label: "Melbourne", value: "melbourne" },
+  { label: "Perth", value: "perth" },
   { label: "Sydney", value: "sydney" }
 ];
 
 export default class SingleSelectDialog extends Component<{}, State> {
   state = {
     isDialogOpen: true,
-    onChangeResult: "Check & Uncheck to trigger onChange"
+    onChangeResult: "Check & Uncheck to trigger onChange",
+    list: [],
   };
 
-  onChange = (event: any) => {
-    this.setState({
-      onChangeResult: `onChange called with value: ${
-        event.target.value
-      } isChecked: ${event.target.checked}`
-    });
+  onChange = (event, data) => {
+    this.state.list = event.target.checked ? [...this.state.list, data] : this.state.list.filter(v => v.value !== data.value);
   };
   openDialog = () => {
     this.setState({ isDialogOpen: true });
@@ -40,16 +52,25 @@ export default class SingleSelectDialog extends Component<{}, State> {
   dialogClosed = () => {
     this.setState(prevState => ({ isDialogOpen: !prevState.isDialogOpen }));
   };
+  change_text = (event) => {
+    
+  }
 
   render() {
     const content = (
       <div style={{ width: "300px" }}>
-        <p>
+        <div>
+          <h1>Columns</h1>
+        </div>
+        <div>
+          <input placeholder="Search" type="text" onChange={this.change_text} ref="search" />
+        </div>
+        <p style={{ overflow: 'auto' , height: "200px"}}>
           {options.map(v => (
             <Checkbox
               value={v.value}
               label={v.label}
-              onChange={this.onChange}
+              onChange={e => this.onChange(e, v)}
               name="checkbox-basic"
             />
           ))}

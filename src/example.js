@@ -44,7 +44,11 @@ export default class SingleSelectDialog extends Component<{}, State> {
   };
 
   onChange = (event, data) => {
-    this.state.list = event.target.checked ? [...this.state.list, data] : this.state.list.filter(v => v.value !== data.value);
+    const list = event.target.checked ? [...this.state.list, data] : this.state.list.filter(v => v.value !== data.value);
+    this.setState({
+      list,
+    });
+    console.log(list);
   };
   openDialog = () => {
     this.setState({ isDialogOpen: true });
